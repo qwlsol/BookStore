@@ -1,0 +1,76 @@
+﻿@page
+@model BookStore.Pages.Buyers.IndexModel
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Список покупателей</h5>
+
+                <a asp-page="Create" class="btn btn-light btn-sm">
+                    + Добавить покупателя
+                </a>
+            </div>
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Фамилия</th>
+                                <th>Email</th>
+                                <th>Телефон</th>
+                                <th class="text-end">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var buyer in Model.Buyers)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">
+                                        @buyer.LastName
+                                    </td>
+
+                                    <td>
+                                        <span class="text-muted">
+                                            @buyer.Email
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrEmpty(buyer.Phone)
+                                                                            ? "—"
+                                                                            : buyer.Phone)
+                                </td>
+
+                                    <td class="text-end">
+                                        <a asp-page="Details"
+                                           asp-route-id="@buyer.Id"
+                                           class="btn btn-sm btn-outline-primary me-1">
+                                            Открыть
+                                        </a>
+
+                                        <a asp-page="Edit"
+                                           asp-route-id="@buyer.Id"
+                                           class="btn btn-sm btn-outline-warning me-1">
+                                            Изменить
+                                        </a>
+
+                                        <a asp-page="Delete"
+                                           asp-route-id="@buyer.Id"
+                                           class="btn btn-sm btn-outline-danger">
+                                            Удалить
+                                        </a>
+                                    </td>
+                                </tr>
+                                                        }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
