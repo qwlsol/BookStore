@@ -2,53 +2,14 @@
 @model BookStore.Pages.Buyers.DetailsModel
 @{
 }
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
+<h1>Информация о покупателе</h1>
 
-        <div class="card shadow-sm mt-4">
-            <div class="card-header" style="background-color: #6f42c1; color: white;">
-                <h5 class="mb-0">Информация о студенте</h5>
-            </div>
-
-            <div class="card-body">
-
-                <dl class="row mb-0">
-                    <dt class="col-sm-4">Фамилия</dt>
-                    <dd class="col-sm-8">@Model.Buyer.LastName</dd>
-
-                    <dt class="col-sm-4">Email</dt>
-                    <dd class="col-sm-8">@Model.Buyer.Email</dd>
-
-                    <dt class="col-sm-4">Телефон</dt>
-                    <dd class="col-sm-8">
-                        @(string.IsNullOrEmpty(Model.Buyer.Phone)
-                                                ? "—"
-                                                : Model.Buyer.Phone)
-                    </dd>
-                </dl>
-
-            </div>
-
-            <div class="card-footer d-flex justify-content-between">
-                <a asp-page="Index" class="btn btn-outline-primary">
-                    Назад
-                </a>
-
-                <div>
-                    <a asp-page="Edit"
-                       asp-route-id="@Model.Buyer.Id"
-                       class="btn btn-outline-success">
-                        Редактировать
-                    </a>
-
-                    <a asp-page="Delete"
-                       asp-route-id="@Model.Buyer.Id"
-                       class="btn btn-outline-danger">
-                        Удалить
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
+<div>
+    <p><strong>Фамилия:</strong> @Model.Buyer.LastName</p>
+    <p><strong>Email:</strong> @Model.Buyer.Email</p>
+    <p><strong>Телефон:</strong> @(string.IsNullOrEmpty(Model.Buyer.Phone) ? "—" : Model.Buyer.Phone)</p>
 </div>
+
+<p>
+    <a asp-page="Index">Назад к списку</a>
+</p>
