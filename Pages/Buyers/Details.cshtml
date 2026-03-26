@@ -1,0 +1,15 @@
+﻿@page
+@model BookStore.Pages.Buyers.DetailsModel
+@{
+}
+<h1>Информация о покупателе</h1>
+
+<div>
+    <p><strong>Фамилия:</strong> @Model.Buyer.LastName</p>
+    <p><strong>Email:</strong> @Model.Buyer.Email</p>
+    <p><strong>Телефон:</strong> @(string.IsNullOrEmpty(Model.Buyer.Phone) ? "—" : Model.Buyer.Phone)</p>
+</div>
+
+<p>
+    <a asp-page="Index">Назад к списку</a>
+</p>
