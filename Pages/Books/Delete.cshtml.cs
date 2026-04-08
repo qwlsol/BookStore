@@ -2,6 +2,7 @@ using BookStore.Data;
 using BookStore.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Pages.Books
 {
@@ -15,11 +16,14 @@ namespace BookStore.Pages.Books
         }
 
         [BindProperty]
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
 
         public IActionResult OnGet(int id)
         {
-            Book = _context.Books.Find(id);
+            Book = _context.Books
+                        .Where(c => c.Id == id)
+                        .Include(b => b.Author)
+                        .FirstOrDefault();
 
             if (Book == null)
                 return NotFound();
