@@ -1,3 +1,5 @@
+﻿using BookStore.Data;
+using BookStore.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,15 +8,22 @@ namespace BookStore.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
+
 
         public void OnGet()
         {
+            var book = new Book { Title = "Clean Code", Author = new() { Name = "Ïóøêèí" } };
+            _context.Books.Add(book);
+            _context.SaveChanges();
 
+            var Books = _context.Books.ToList();
         }
     }
 }
