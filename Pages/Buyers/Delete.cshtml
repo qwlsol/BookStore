@@ -2,19 +2,33 @@
 @model BookStore.Pages.Buyers.DeleteModel
 @{
 }
-<h1>Удалить покупателя</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h1 class="text-success mb-0">Удалить покупателя</h1>
+                </div>
+                <div class="card-body">
+                    <h3 class="text-warning mb-4">Вы уверены?</h3>
 
-<h3>Вы уверены?</h3>
+                    <div class="card bg-light mb-4">
+                        <div class="card-body">
+                            <p class="fs-5 mb-2"><strong class="text-success">Фамилия:</strong> @Model.Buyer.LastName</p>
+                            <p class="fs-5 mb-2"><strong class="text-success">Email:</strong> @Model.Buyer.Email</p>
+                            <p class="fs-5 mb-0"><strong class="text-success">Телефон:</strong> @Model.Buyer.Phone</p>
+                        </div>
+                    </div>
 
-<div>
-    <p><strong>@Model.Buyer.LastName</strong></p>
-    <p>@Model.Buyer.Email</p>
-    <p>@Model.Buyer.Phone</p>
+                    <form method="post">
+                        <input type="hidden" asp-for="Buyer.Id" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <a asp-page="Index" class="btn btn-outline-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<form method="post">
-    <input type="hidden" asp-for="Buyer.Id" />
-    <button type="submit">Удалить</button>
-</form>
-
-<a asp-page="Index">Отмена</a>

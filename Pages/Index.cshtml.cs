@@ -19,11 +19,7 @@ namespace BookStore.Pages
 
         public void OnGet()
         {
-            var book = new Book { Title = "Clean Code", Author = new() { Name = "Ïóøêèí" } };
-            _context.Books.Add(book);
-            _context.SaveChanges();
-
-            var Books = _context.Books.ToList();
+            
         }
     }
 }
