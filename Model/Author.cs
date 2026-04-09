@@ -1,4 +1,6 @@
-﻿namespace BookStore.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BookStore.Model
 {
     public class Author : EFModel
     {

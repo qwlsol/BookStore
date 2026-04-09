@@ -1,23 +1,22 @@
 ﻿@page
 @model BookStore.Pages.Buyers.DeleteModel
 @{
+    ViewData["Title"] = "Удалить покупателя";
 }
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-white">
-                    <h1 class="text-success mb-0">Удалить покупателя</h1>
+            <div class="card shadow-sm border-danger">
+                <div class="card-header bg-danger bg-opacity-10 border-danger">
+                    <h3 class="mb-0 text-danger">Удалить покупателя</h3>
                 </div>
                 <div class="card-body">
-                    <h3 class="text-warning mb-4">Вы уверены?</h3>
+                    <p class="mb-4">Вы уверены, что хотите удалить этого покупателя?</p>
 
-                    <div class="card bg-light mb-4">
-                        <div class="card-body">
-                            <p class="fs-5 mb-2"><strong class="text-success">Фамилия:</strong> @Model.Buyer.LastName</p>
-                            <p class="fs-5 mb-2"><strong class="text-success">Email:</strong> @Model.Buyer.Email</p>
-                            <p class="fs-5 mb-0"><strong class="text-success">Телефон:</strong> @Model.Buyer.Phone</p>
-                        </div>
+                    <div class="bg-secondary bg-opacity-10 p-3 rounded mb-4">
+                        <p class="mb-2"><strong>Фамилия:</strong> @Model.Buyer.LastName</p>
+                        <p class="mb-2"><strong>Email:</strong> @Model.Buyer.Email</p>
+                        <p class="mb-0"><strong>Телефон:</strong> @(string.IsNullOrEmpty(Model.Buyer.Phone) ? "—" : Model.Buyer.Phone)</p>
                     </div>
 
                     <form method="post">
