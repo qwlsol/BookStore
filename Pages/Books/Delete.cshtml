@@ -15,7 +15,7 @@
 
                     <div class="bg-secondary bg-opacity-10 p-3 rounded mb-4">
                         <p class="mb-2"><strong>Название:</strong> @Model.Book.Title</p>
-                        <p class="mb-2"><strong>Автор:</strong> @Model.Book.Author.Name</p>
+                        <p class="card-text text-muted">Автор: @Model.Book.Author?.Name</p>
                         <p class="mb-2"><strong>Цена:</strong> @Model.Book.Price ₽</p>
                         <p class="mb-0"><strong>Количество:</strong> @Model.Book.Quantity шт.</p>
                     </div>
