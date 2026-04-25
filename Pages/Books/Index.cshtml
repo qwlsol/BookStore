@@ -1,37 +1,47 @@
 ﻿@page
 @model BookStore.Pages.Books.IndexModel
 @{
+    ViewData["Title"] = "Ассортимент книг";
 }
-<h1>Ассортимент книг</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="mb-0">Список книг</h3>
+        <a asp-page="Create" class="btn btn-success btn-sm">+ Добавить</a>
+    </div>
 
-<p>
-    <a asp-page="Create">Добавить новую книгу</a>
-</p>
-
-<table border="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th>Название</th>
-            <th>Автор</th>
-            <th>Цена</th>
-            <th>Количество</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-       @foreach (var book in Model.Books)
-        {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.Author</td>
-                <td>@book.Price</td>
-                <td>@book.Quantity</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@book.Id">Открыть</a>
-                    <a asp-page="Edit" asp-route-id="@book.Id">Изменить</a>
-                    <a asp-page="Delete" asp-route-id="@book.Id">Удалить</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (!Model.Books.Any())
+    {
+        <div class="text-center text-secondary py-5">
+            <p>Книг пока нет</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var book in Model.Books)
+            {
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100 shadow-sm border-success">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">@book.Title</h5>
+                            <p class="card-text small text-secondary mb-2">@book.Author.Name</p>
+                            <p class="card-text mb-2">
+                                <strong class="text-success">@book.Price ₽</strong>
+                            </p>
+                            <p class="card-text small text-secondary">
+                                В наличии: @book.Quantity шт.
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="btn-group w-100 btn-group-sm">
+                                <a asp-page="Details" asp-route-id="@book.Id" class="btn btn-outline-info">Открыть</a>
+                                <a asp-page="Edit" asp-route-id="@book.Id" class="btn btn-outline-warning">Изменить</a>
+                                <a asp-page="Delete" asp-route-id="@book.Id" class="btn btn-outline-danger">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
