@@ -3906,11 +3906,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\П-30 Соловьёва\\BookStoreTest\\BookStoreTest.csproj",
+      "projectUniqueName": "D:\\П-30\\Web\\BookStoreTest\\BookStoreTest.csproj",
       "projectName": "BookStoreTest",
-      "projectPath": "D:\\П-30 Соловьёва\\BookStoreTest\\BookStoreTest.csproj",
+      "projectPath": "D:\\П-30\\Web\\BookStoreTest\\BookStoreTest.csproj",
       "packagesPath": "C:\\Users\\st52\\.nuget\\packages\\",
-      "outputPath": "D:\\П-30 Соловьёва\\BookStoreTest\\obj\\",
+      "outputPath": "D:\\П-30\\web\\BookStoreTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3932,8 +3932,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\П-30 Соловьёва\\BookStore\\BookStore.csproj": {
-              "projectPath": "D:\\П-30 Соловьёва\\BookStore\\BookStore.csproj"
+            "D:\\П-30\\Web\\BookStore\\BookStore.csproj": {
+              "projectPath": "D:\\П-30\\Web\\BookStore\\BookStore.csproj"
             }
           }
         }

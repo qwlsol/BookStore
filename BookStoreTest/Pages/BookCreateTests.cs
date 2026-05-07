@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.Data;
 using BookStore.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BookStore.Tests.Pages;
 
