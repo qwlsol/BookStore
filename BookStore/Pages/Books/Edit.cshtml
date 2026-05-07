@@ -21,10 +21,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="AuthorName" class="form-label">Автор</label>
-                            <input asp-for="AuthorName" class="form-control" />
+                            <label asp-for="SelectedAuthorId" class="form-label fw-semibold">Автор</label>
+                            <select asp-for="SelectedAuthorId" asp-items="Model.AuthorList" class="form-select">
+                                <option value="">-- Выберите автора --</option>
+                            </select>
+                            <span asp-validation-for="SelectedAuthorId" class="text-danger small"></span>
                         </div>
-
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Цена (₽)</label>

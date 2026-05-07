@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStore.Pages.Books
 {
@@ -20,8 +21,11 @@ namespace BookStore.Pages.Books
         public Book? Book { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Укажите автора")]
-        public string AuthorName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Выберите автора")]
+        public int SelectedAuthorId { get; set; }
+
+        public SelectList AuthorList { get; set; }
+
         public IActionResult OnGet(int id)
         {
             Book = _context.Books
@@ -32,7 +36,8 @@ namespace BookStore.Pages.Books
             if (Book == null)
                 return NotFound();
 
-            AuthorName = Book.Author?.Name ?? string.Empty;
+            SelectedAuthorId = Book.AuthorID;
+            LoadAuthorList();
 
             return Page();
         }
@@ -40,23 +45,30 @@ namespace BookStore.Pages.Books
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
-                return Page();
-
-            var author = _context.Authors.FirstOrDefault(a => a.Name == AuthorName);
-            if (author == null)
             {
-                author = new Author { Name = AuthorName };
-                _context.Authors.Add(author);
-                _context.SaveChanges();
+                LoadAuthorList();
+                return Page();
             }
 
-            Book.AuthorID = author.Id;
-            Book.Author = author;
+            var bookToUpdate = _context.Books.Find(Book.Id);
+            if (bookToUpdate == null)
+                return NotFound();
 
-            _context.Books.Update(Book);
+            bookToUpdate.Title = Book.Title;
+            bookToUpdate.Price = Book.Price;
+            bookToUpdate.Quantity = Book.Quantity;
+            bookToUpdate.AuthorID = SelectedAuthorId;
+
+            _context.Books.Update(bookToUpdate);
             _context.SaveChanges();
 
             return RedirectToPage("Index");
+        }
+
+        private void LoadAuthorList()
+        {
+            var authors = _context.Authors.ToList();
+            AuthorList = new SelectList(authors, "Id", "Name", SelectedAuthorId);
         }
     }
 }

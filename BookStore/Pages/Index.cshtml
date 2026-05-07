@@ -4,8 +4,43 @@
     ViewData["Title"] = "Магазин книг";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Добро пожаловать в проект магазин книг</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">Добро пожаловать в книжный магазин!</h1>
+            <p class="lead mb-5">Управляйте ассортиментом книг, авторами и покупателями</p>
 
+            <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">📚 Книги</h5>
+                            <p class="card-text">Просмотр, добавление и редактирование книг</p>
+                            <a asp-page="/Books/Index" class="btn btn-primary">Перейти к книгам</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">✍️ Авторы</h5>
+                            <p class="card-text">Управление списком авторов</p>
+                            <a asp-page="/Authors/Index" class="btn btn-primary">Перейти к авторам</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">👥 Покупатели</h5>
+                            <p class="card-text">Управление базой покупателей</p>
+                            <a asp-page="/Buyers/Index" class="btn btn-primary">Перейти к покупателям</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

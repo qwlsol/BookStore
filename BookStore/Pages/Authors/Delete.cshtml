@@ -1,0 +1,39 @@
+﻿@page
+@model BookStore.Pages.Authors.DeleteModel
+@{
+    ViewData["Title"] = "Удалить автора";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-danger">
+                <div class="card-header bg-danger bg-opacity-10 border-danger">
+                    <h3 class="mb-0 text-danger">Удалить автора</h3>
+                </div>
+                <div class="card-body">
+                    <p class="mb-4">Вы уверены, что хотите удалить этого автора?</p>
+
+                    <div class="bg-secondary bg-opacity-10 p-3 rounded mb-4">
+                        <p class="mb-2"><strong>Имя:</strong> @Model.Author.Name</p>
+                        @if (Model.Author.Books.Any())
+                        {
+                            <p class="mb-0 text-danger small">
+                                ⚠️ Внимание: У автора есть @Model.Author.Books.Count книг(а/и). 
+                                При удалении автора книги останутся без автора!
+                            </p>
+                        }
+                    </div>
+
+                    <form method="post">
+                        <input type="hidden" asp-for="Author.Id" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <a asp-page="Index" class="btn btn-outline-secondary">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
