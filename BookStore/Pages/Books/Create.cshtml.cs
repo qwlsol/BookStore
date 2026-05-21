@@ -2,7 +2,6 @@ using BookStore.Data;
 using BookStore.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStore.Pages.Books
@@ -17,38 +16,29 @@ namespace BookStore.Pages.Books
         }
 
         [BindProperty]
-        public Book Book { get; set; }
-
-        [BindProperty]
-        [Required(ErrorMessage = "Выберите автора")]
-        public int SelectedAuthorId { get; set; }
+        public Book Book { get; set; } = new();
 
         public SelectList AuthorList { get; set; }
 
         public void OnGet()
         {
-            LoadAuthorList();
+            var authors = _context.Authors.ToList();
+            AuthorList = new SelectList(authors, "Id", "Name");
         }
 
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
-                LoadAuthorList();
+                var authors = _context.Authors.ToList();
+                AuthorList = new SelectList(authors, "Id", "Name");
                 return Page();
             }
-
-            Book.AuthorID = SelectedAuthorId;
+            Book.Author = null;
             _context.Books.Add(Book);
             _context.SaveChanges();
 
             return RedirectToPage("Index");
-        }
-
-        private void LoadAuthorList()
-        {
-            var authors = _context.Authors.ToList();
-            AuthorList = new SelectList(authors, "Id", "Name");
         }
     }
 }
