@@ -31,7 +31,10 @@ public class BooksCreateTests
         var context = GetDbContext();
         var model = new CreateModel(context);
 
-        var author = new Author { Name = "Тестовый автор" };
+        var author = new Author
+        {
+            Name = "Тестовый автор"
+        };
         context.Authors.Add(author);
         context.SaveChanges();
 
@@ -40,13 +43,18 @@ public class BooksCreateTests
             Title = "Новая книга",
             AuthorID = author.Id,
             Price = 300,
-            Quantity = 7
+            Quantity = 7,
+            Author = null
         };
+
         var result = model.OnPost();
 
         Assert.IsType<RedirectToPageResult>(result);
         Assert.Equal(1, context.Books.Count());
-        Assert.Equal("Новая книга", context.Books.First().Title);
+
+        var savedBook = context.Books.First();
+        Assert.Equal("Новая книга", savedBook.Title);
+        Assert.Equal(author.Id, savedBook.AuthorID);
     }
 
     [Fact]

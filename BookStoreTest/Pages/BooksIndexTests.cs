@@ -16,8 +16,26 @@ public class BooksIndexTests
 
         var context = new ApplicationDbContext(options);
 
-        context.Books.Add(new Book { Title = "Книга 1", Price = 100, Quantity = 5 });
-        context.Books.Add(new Book { Title = "Книга 2", Price = 200, Quantity = 3 });
+        var author = new Author { Name = "Тестовый автор" };
+        context.Authors.Add(author);
+        context.SaveChanges();
+
+        context.Books.Add(new Book
+        {
+            Title = "Книга 1",
+            AuthorID = author.Id,
+            Price = 100,
+            Quantity = 5
+        });
+
+        context.Books.Add(new Book
+        {
+            Title = "Книга 2",
+            AuthorID = author.Id,
+            Price = 200,
+            Quantity = 3
+        });
+
         context.SaveChanges();
 
         var model = new IndexModel(context);
