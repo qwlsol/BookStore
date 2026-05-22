@@ -1,5 +1,6 @@
 using BookStore.Data;
 using BookStore.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;

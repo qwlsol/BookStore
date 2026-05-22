@@ -1,0 +1,63 @@
+﻿@page
+@model BookStore.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = "Мой профиль";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Мой профиль</h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Success"]</div>
+                    }
+
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="text-center mb-4">
+                            @if (!string.IsNullOrEmpty(Model.CurrentAvatarPath))
+                            {
+                                <img src="@Model.CurrentAvatarPath"
+                                     alt="Avatar"
+                                     class="rounded-circle img-thumbnail"
+                                     style="width: 150px; height: 150px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center"
+                                     style="width: 150px; height: 150px;">
+                                    <span class="text-white display-4">👤</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <input asp-for="AppUser.Email" class="form-control bg-light" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Роль</label>
+                            <input value="@Model.AppUser.Role" class="form-control bg-light" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AvatarFile" class="form-label fw-bold">Аватар</label>
+                            <input asp-for="AvatarFile" type="file" class="form-control" accept="image/*" />
+                            <small class="text-muted">Поддерживаемые форматы: JPG, PNG, GIF, WEBP. Макс. 5MB</small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                            <a asp-page="/Index" class="btn btn-outline-secondary">На главную</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

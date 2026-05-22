@@ -32,7 +32,7 @@ namespace BookStore.Pages.Account
 
             if (user != null)
             {
-                await Authenticate(Input.Email, user.Role);
+                await Authenticate(Input.Email, user.Role, user.Id);
                 //await Authenticate(Input.Email); //
                 return RedirectToPage("/Index");
             }
@@ -41,15 +41,18 @@ namespace BookStore.Pages.Account
             return Page();
         }
 
-        private async Task Authenticate(string userName, string role)
+        private async Task Authenticate(string userName, string role, int userId)
         {
             var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
-            };
+    {
+        new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+        new Claim(ClaimsIdentity.DefaultRoleClaimType, role),
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()) // ÕŒ¬¿ﬂ —“–Œ ¿
+    };
 
-            var identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            var identity = new ClaimsIdentity(claims, "ApplicationCookie",
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
             var principal = new ClaimsPrincipal(identity);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
