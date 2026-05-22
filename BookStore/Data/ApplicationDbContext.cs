@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BookStore.Model;
+﻿using BookStore.Model;
+using BookStore.Model.AuthApp;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Data
 {
@@ -13,5 +14,6 @@ namespace BookStore.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<AuthUser> AuthUsers { get; set; }
     }
 }
