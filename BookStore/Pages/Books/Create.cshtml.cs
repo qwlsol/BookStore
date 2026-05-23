@@ -1,9 +1,12 @@
 using BookStore.Data;
+using BookStore.Hubs;
 using BookStore.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Pages.Books
 {
@@ -11,11 +14,16 @@ namespace BookStore.Pages.Books
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<BookHub> _bookHubContext;
+        private object value;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, IHubContext<BookHub> bookHubContext)
         {
             _context = context;
+            _bookHubContext = bookHubContext;
         }
+        //для тестов
+        public CreateModel(ApplicationDbContext context) : this(context, null) { }
 
         [BindProperty]
         public Book Book { get; set; } = new();
@@ -28,7 +36,7 @@ namespace BookStore.Pages.Books
             AuthorList = new SelectList(authors, "Id", "Name");
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -36,9 +44,25 @@ namespace BookStore.Pages.Books
                 AuthorList = new SelectList(authors, "Id", "Name");
                 return Page();
             }
+
             Book.Author = null;
             _context.Books.Add(Book);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            var bookWithAuthor = await _context.Books
+                .Include(b => b.Author)
+                .FirstOrDefaultAsync(b => b.Id == Book.Id);
+
+            var bookData = new
+            {
+                id = bookWithAuthor.Id,
+                title = bookWithAuthor.Title,
+                price = bookWithAuthor.Price,
+                quantity = bookWithAuthor.Quantity,
+                authorName = bookWithAuthor.Author?.Name ?? ""
+            };
+
+            await _bookHubContext.Clients.All.SendAsync("BookUpdated", bookData);
 
             return RedirectToPage("Index");
         }

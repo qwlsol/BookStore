@@ -1,9 +1,12 @@
-﻿using BookStore.Pages.Books;
-using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
+﻿using BookStore.Data;
+using BookStore.Hubs;
 using BookStore.Model;
+using BookStore.Pages.Books;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace BookStore.Tests.Pages;
 
@@ -26,10 +29,19 @@ public class BooksCreateTests
     }
 
     [Fact]
-    public void OnPost_WithValidBook_AddsBookToDatabase()
+    public async Task OnPost_WithValidBook_AddsBookToDatabase()
     {
         var context = GetDbContext();
-        var model = new CreateModel(context);
+
+        // Создаем Mock для IHubContext<BookHub>
+        var mockHubContext = new Mock<IHubContext<BookHub>>();
+        var mockClients = new Mock<IHubClients>();
+        var mockClientProxy = new Mock<IClientProxy>();
+
+        mockHubContext.Setup(x => x.Clients).Returns(mockClients.Object);
+        mockClients.Setup(x => x.All).Returns(mockClientProxy.Object);
+
+        var model = new CreateModel(context, mockHubContext.Object);
 
         var author = new Author
         {
@@ -46,8 +58,7 @@ public class BooksCreateTests
             Quantity = 7,
             Author = null
         };
-
-        var result = model.OnPost();
+        var result = await model.OnPostAsync();
 
         Assert.IsType<RedirectToPageResult>(result);
         Assert.Equal(1, context.Books.Count());
@@ -58,7 +69,7 @@ public class BooksCreateTests
     }
 
     [Fact]
-    public void OnPost_WithInvalidBook_ReturnsPage()
+    public async Task OnPost_WithInvalidBook_ReturnsPage()
     {
         var context = GetDbContext();
         var model = new CreateModel(context);
@@ -66,9 +77,10 @@ public class BooksCreateTests
         model.Book = new Book { Title = "", Price = 300, Quantity = 7 };
         model.ModelState.AddModelError("Book.Title", "Название обязательно");
 
-        var result = model.OnPost();
+        var result = await model.OnPostAsync();
 
         Assert.IsType<PageResult>(result);
         Assert.Equal(0, context.Books.Count());
-    }
+
+    } 
 }
