@@ -8,7 +8,7 @@ public class BuyerTests
     [Fact]
     public void Buyer_LastNameIsRequired_ReturnsValidationError()
     {
-        var buyer = new Buyer { LastName = "" }; 
+        var buyer = new Buyer { LastName = "" };
         var context = new ValidationContext(buyer);
         var results = new List<ValidationResult>();
 
