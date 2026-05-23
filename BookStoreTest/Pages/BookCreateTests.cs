@@ -24,7 +24,12 @@ public class BooksCreateTests
     [Fact]
     public void CreateModel_Exists()
     {
-        var model = new CreateModel(null!);
+        // Создаем моки для обоих параметров
+        var mockContext = new Mock<ApplicationDbContext>();
+        var mockHubContext = new Mock<IHubContext<BookHub>>();
+
+        var model = new CreateModel(mockContext.Object, mockHubContext.Object);
+
         Assert.NotNull(model);
     }
 
@@ -72,7 +77,8 @@ public class BooksCreateTests
     public async Task OnPost_WithInvalidBook_ReturnsPage()
     {
         var context = GetDbContext();
-        var model = new CreateModel(context);
+        var mockHub = new Mock<IHubContext<BookHub>>(); 
+        var model = new CreateModel(context, mockHub.Object); 
 
         model.Book = new Book { Title = "", Price = 300, Quantity = 7 };
         model.ModelState.AddModelError("Book.Title", "Название обязательно");
@@ -81,6 +87,5 @@ public class BooksCreateTests
 
         Assert.IsType<PageResult>(result);
         Assert.Equal(0, context.Books.Count());
-
-    } 
+    }
 }

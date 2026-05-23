@@ -1,6 +1,6 @@
 using BookStore.Data;
-using BookStore.Hubs;
 using BookStore.Model;
+using BookStore.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,21 +14,19 @@ namespace BookStore.Pages.Books
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly IHubContext<BookHub> _bookHubContext;
-        private object value;
+        private readonly IHubContext<BookHub>? _bookHubContext;
 
+        // Только ОДИН конструктор
         public CreateModel(ApplicationDbContext context, IHubContext<BookHub> bookHubContext)
         {
             _context = context;
             _bookHubContext = bookHubContext;
         }
-        //для тестов
-        public CreateModel(ApplicationDbContext context) : this(context, null) { }
 
         [BindProperty]
         public Book Book { get; set; } = new();
 
-        public SelectList AuthorList { get; set; }
+        public SelectList? AuthorList { get; set; }
 
         public void OnGet()
         {
@@ -53,16 +51,19 @@ namespace BookStore.Pages.Books
                 .Include(b => b.Author)
                 .FirstOrDefaultAsync(b => b.Id == Book.Id);
 
-            var bookData = new
+            if (bookWithAuthor != null && _bookHubContext != null)
             {
-                id = bookWithAuthor.Id,
-                title = bookWithAuthor.Title,
-                price = bookWithAuthor.Price,
-                quantity = bookWithAuthor.Quantity,
-                authorName = bookWithAuthor.Author?.Name ?? ""
-            };
+                var bookData = new
+                {
+                    id = bookWithAuthor.Id,
+                    title = bookWithAuthor.Title,
+                    price = bookWithAuthor.Price,
+                    quantity = bookWithAuthor.Quantity,
+                    authorName = bookWithAuthor.Author?.Name ?? ""
+                };
 
-            await _bookHubContext.Clients.All.SendAsync("BookUpdated", bookData);
+                await _bookHubContext.Clients.All.SendAsync("BookUpdated", bookData);
+            }
 
             return RedirectToPage("Index");
         }
