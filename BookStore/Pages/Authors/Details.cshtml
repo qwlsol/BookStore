@@ -1,0 +1,39 @@
+﻿@page
+@model BookStore.Pages.Authors.DetailsModel
+@{
+    ViewData["Title"] = "Информация об авторе";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-info">
+                <div class="card-header bg-info bg-opacity-10 border-info">
+                    <h3 class="mb-0 text-info">Информация об авторе</h3>
+                </div>
+                <div class="card-body">
+                    <div class="bg-secondary bg-opacity-10 p-3 rounded">
+                        <p class="mb-3"><strong>Имя:</strong> @Model.Author.Name</p>
+                        <p class="mb-0"><strong>Количество книг:</strong> @Model.Author.Books.Count</p>
+                        
+                        @if (Model.Author.Books.Any())
+                        {
+                            <hr />
+                            <p class="mb-2"><strong>Книги автора:</strong></p>
+                            <ul>
+                                @foreach (var book in Model.Author.Books)
+                                {
+                                    <li>@book.Title - @book.Price ₽</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+
+                    <div class="mt-4">
+                        <a asp-page="Index" class="btn btn-outline-secondary">Назад</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

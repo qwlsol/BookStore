@@ -7,10 +7,16 @@ namespace BookStore.Model
     {
         [Required(ErrorMessage = "Требуется ввести название")]
         public string Title { get; set; } = string.Empty;
-        public Author Author { get; set; } = new();
+
+        [Required(ErrorMessage = "Выберите автора")]
         public int AuthorID { get; set; }
+
+        [JsonIgnore]
+        public Author? Author { get; set; }
+
         [Range(1, 1000000, ErrorMessage = "Цена должна быть от 1 до 1000000")]
         public int Price { get; set; }
+
         [Range(1, 10000, ErrorMessage = "Количество должно быть от 1 до 10000")]
         public int Quantity { get; set; }
     }

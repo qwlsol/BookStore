@@ -2,7 +2,7 @@ using BookStore.Data;
 using BookStore.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStore.Pages.Books
 {
@@ -16,30 +16,25 @@ namespace BookStore.Pages.Books
         }
 
         [BindProperty]
-        public Book Book { get; set; }
-        [BindProperty]
-        [Required(ErrorMessage = "Требуется ввести автора")]
-        public string AuthorName { get; set; } = string.Empty;
+        public Book Book { get; set; } = new();
 
-        public void OnGet() { }
+        public SelectList AuthorList { get; set; }
+
+        public void OnGet()
+        {
+            var authors = _context.Authors.ToList();
+            AuthorList = new SelectList(authors, "Id", "Name");
+        }
 
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
-                return Page();
-
-            // Найти или создать автора
-            var author = _context.Authors.FirstOrDefault(a => a.Name == AuthorName);
-            if (author == null)
             {
-                author = new Author { Name = AuthorName };
-                _context.Authors.Add(author);
-                _context.SaveChanges();
+                var authors = _context.Authors.ToList();
+                AuthorList = new SelectList(authors, "Id", "Name");
+                return Page();
             }
-
-            Book.AuthorID = author.Id;
-            Book.Author = author;
-
+            Book.Author = null;
             _context.Books.Add(Book);
             _context.SaveChanges();
 
