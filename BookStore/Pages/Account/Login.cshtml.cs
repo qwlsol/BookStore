@@ -1,0 +1,62 @@
+using BookStore.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
+
+namespace BookStore.Pages.Account
+{
+    public class LoginModel : PageModel
+    {
+        private readonly ApplicationDbContext _context;
+
+        public LoginModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [BindProperty]
+        public Model.AuthApp.Login Input { get; set; }
+
+        public void OnGet()
+        {
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+                return Page();
+
+            var user = _context.AuthUsers.FirstOrDefault(u => u.Email == Input.Email && u.Password == Input.Password);
+
+            if (user != null)
+            {
+                await Authenticate(Input.Email, user.Role, user.Id);
+                //await Authenticate(Input.Email); //
+                return RedirectToPage("/Index");
+            }
+
+            ModelState.AddModelError(string.Empty, "Пользователь не найден");
+            return Page();
+        }
+
+        private async Task Authenticate(string userName, string role, int userId)
+        {
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+        new Claim(ClaimsIdentity.DefaultRoleClaimType, role),
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()) // НОВАЯ СТРОКА
+    };
+
+            var identity = new ClaimsIdentity(claims, "ApplicationCookie",
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        }
+
+    }
+}

@@ -45,3 +45,84 @@
         </div>
     }
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/bookHub")
+        .build();
+
+    connection.on("BookUpdated", function (book) {
+        const existingCard = document.getElementById("book-" + book.id);
+        const existingWrapper = document.getElementById("book-wrapper-" + book.id);
+        const container = document.querySelector(".row");
+
+        // Если книга удалена
+        if (book.isDeleted) {
+            if (existingWrapper) {
+                existingWrapper.remove();
+            }
+            // Проверяем, остались ли книги
+            if (container.children.length === 0) {
+                container.innerHTML = '<div class="text-center text-secondary py-5"><p>Книг пока нет</p></div>';
+            }
+            return;
+        }
+
+        // HTML для карточки книги (используем правильные поля)
+        const cardHtml = `
+            <div class="card h-100 shadow-sm border-success" id="book-${book.id}">
+                <div class="card-body">
+                    <h5 class="card-title text-success">${escapeHtml(book.title)}</h5>
+                    <p class="card-text small text-secondary mb-2">${escapeHtml(book.authorName || '')}</p>
+                    <p class="card-text mb-2">
+                        <strong class="text-success">${book.price} ₽</strong>
+                    </p>
+                    <p class="card-text small text-secondary">
+                        В наличии: ${book.quantity} шт.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="btn-group w-100 btn-group-sm">
+                        <a href="/Books/Details?id=${book.id}" class="btn btn-outline-info">Открыть</a>
+                        <a href="/Books/Edit?id=${book.id}" class="btn btn-outline-warning">Изменить</a>
+                        <a href="/Books/Delete?id=${book.id}" class="btn btn-outline-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (existingCard) {
+            existingCard.outerHTML = cardHtml;
+        } else {
+            // Удаляем сообщение "Книг пока нет" если есть
+            const noBooksMsg = container.querySelector(".text-center.text-secondary");
+            if (noBooksMsg) {
+                noBooksMsg.remove();
+            }
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "col-md-6 col-lg-4 mb-3";
+            wrapper.id = "book-wrapper-" + book.id;
+            wrapper.innerHTML = cardHtml;
+            container.appendChild(wrapper);
+        }
+    });
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Добавляем id для оберток карточек в HTML
+    document.querySelectorAll(".row .col-md-6").forEach(wrapper => {
+        const card = wrapper.querySelector(".card");
+        if (card && card.id) {
+            wrapper.id = "book-wrapper-" + card.id.split("-")[1];
+        }
+    });
+
+    connection.start().catch(err => console.error(err.toString()));
+</script>

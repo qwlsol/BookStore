@@ -1,0 +1,62 @@
+﻿@page
+@model BookStore.Pages.ChatModel
+@{
+    ViewData["Title"] = "Чат";
+}
+<style>
+    body.dark-mode #chatroom {
+        background-color: #2d2d2d !important;
+        border-color: #444 !important;
+    }
+
+        body.dark-mode #chatroom p,
+        body.dark-mode #chatroom strong {
+            color: white !important;
+        }
+
+    body.dark-mode #message {
+        background-color: #3d3d3d;
+        color: white;
+        border-color: #555;
+    }
+
+        body.dark-mode #message::placeholder {
+            color: #aaa;
+        }
+</style>
+
+<div><strong>Вы вошли как:</strong> @Model.UserName</div>
+
+<div class="mt-3">
+    <input type="text" id="message" placeholder="Введите сообщение..." class="form-control" />
+    <button id="sendBtn" class="btn btn-primary mt-2">Отправить</button>
+</div>
+
+<div id="chatroom" class="mt-4 p-3 border bg-white rounded"></div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script>
+        const userName = "@Model.UserName";
+        const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+        // Отправка сообщения
+        document.getElementById("sendBtn").addEventListener("click", () => {
+            const message = document.getElementById("message").value;
+            connection.invoke("SendMessage", userName, message)
+                      .catch(err => console.error(err.toString()));
+        });
+
+        // Приём сообщений
+        connection.on("Receive", (user, message) => {
+            const msg = document.createElement("p");
+            msg.innerHTML = `<b>${user}:</b> ${message}`;
+            document.getElementById("chatroom").prepend(msg);
+        });
+
+        // Запуск соединения
+        connection.start()
+                  .then(() => document.getElementById("sendBtn").disabled = false)
+                  .catch(err => console.error(err.toString()));
+    </script>
+}
