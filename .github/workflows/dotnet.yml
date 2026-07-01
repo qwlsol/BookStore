@@ -4,7 +4,7 @@ name: .NET Build & Test
 
 on:
   push:
-    branches: [ "**" ]  
+    branches: [ "**" ]  # работает теперь для любой ветки
   pull_request:
     branches: [ "**" ] 
 
