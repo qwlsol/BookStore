@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\П-30\\веб\\BookStoreTest\\BookStoreTest.csproj": {}
+    "D:\\Соловьева\\BookStoreTest\\BookStoreTest.csproj": {}
   },
   "projects": {
-    "D:\\П-30\\веб\\BookStoreTest\\BookStoreTest.csproj": {
+    "D:\\Соловьева\\BookStoreTest\\BookStoreTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\П-30\\веб\\BookStoreTest\\BookStoreTest.csproj",
+        "projectUniqueName": "D:\\Соловьева\\BookStoreTest\\BookStoreTest.csproj",
         "projectName": "BookStoreTest",
-        "projectPath": "D:\\П-30\\веб\\BookStoreTest\\BookStoreTest.csproj",
-        "packagesPath": "C:\\Users\\st52\\.nuget\\packages\\",
-        "outputPath": "D:\\П-30\\веб\\BookStoreTest\\obj\\",
+        "projectPath": "D:\\Соловьева\\BookStoreTest\\BookStoreTest.csproj",
+        "packagesPath": "C:\\Users\\st50\\.nuget\\packages\\",
+        "outputPath": "D:\\Соловьева\\BookStoreTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\st52\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\st50\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -33,8 +33,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\П-30\\веб\\BookStore\\BookStore.csproj": {
-                "projectPath": "D:\\П-30\\веб\\BookStore\\BookStore.csproj"
+              "D:\\Соловьева\\BookStore\\BookStore.csproj": {
+                "projectPath": "D:\\Соловьева\\BookStore\\BookStore.csproj"
               }
             }
           }
@@ -49,7 +49,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -100,24 +100,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\П-30\\веб\\BookStore\\BookStore.csproj": {
+    "D:\\Соловьева\\BookStore\\BookStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\П-30\\веб\\BookStore\\BookStore.csproj",
+        "projectUniqueName": "D:\\Соловьева\\BookStore\\BookStore.csproj",
         "projectName": "BookStore",
-        "projectPath": "D:\\П-30\\веб\\BookStore\\BookStore.csproj",
-        "packagesPath": "C:\\Users\\st52\\.nuget\\packages\\",
-        "outputPath": "D:\\П-30\\веб\\BookStore\\obj\\",
+        "projectPath": "D:\\Соловьева\\BookStore\\BookStore.csproj",
+        "packagesPath": "C:\\Users\\st50\\.nuget\\packages\\",
+        "outputPath": "D:\\Соловьева\\BookStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\st52\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\st50\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -145,7 +145,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -189,7 +189,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

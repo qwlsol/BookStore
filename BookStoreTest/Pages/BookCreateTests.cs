@@ -24,11 +24,14 @@ public class BooksCreateTests
     [Fact]
     public void CreateModel_Exists()
     {
-        // Создаем моки для обоих параметров
-        var mockContext = new Mock<ApplicationDbContext>();
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+       .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+       .Options;
+
+        var context = new ApplicationDbContext(options);
         var mockHubContext = new Mock<IHubContext<BookHub>>();
 
-        var model = new CreateModel(mockContext.Object, mockHubContext.Object);
+        var model = new CreateModel(context, mockHubContext.Object);
 
         Assert.NotNull(model);
     }
