@@ -1,37 +1,47 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET Build & Test
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "**" ]  # Запускается на любой ветке
   pull_request:
-    branches: [ main, master ]
+    branches: [ "**" ]  # Запускается на любом PR
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
-    
+
+    - name: Debug - show project structure
+      run: |
+        echo "=== Current directory ==="
+        pwd
+        echo "=== All .csproj files ==="
+        find . -name "*.csproj"
+        echo "=== All .sln files ==="
+        find . -name "*.sln"
+        echo "=== Directory listing ==="
+        ls -la
+
     - name: Restore dependencies
       run: dotnet restore ./BookStore/BookStore.csproj
-    
+
     - name: Restore test dependencies
       run: dotnet restore ./BookStoreTest/BookStoreTest.csproj
-    
+
     - name: Build main project
       run: dotnet build ./BookStore/BookStore.csproj --configuration Release --no-restore
-    
+
     - name: Build tests
       run: dotnet build ./BookStoreTest/BookStoreTest.csproj --configuration Release --no-restore
-    
+
     - name: Run tests
       run: dotnet test ./BookStoreTest/BookStoreTest.csproj --configuration Release --no-build --verbosity normal
